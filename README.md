@@ -8,3 +8,5 @@ To change what file is ran just go into main.go and change what function is call
 	movieReview: My first scrapper. Will take input from the commandline and return what the imdb top movies with the given titles and the ratings for those movies
 	
 	citScrapper: Will check the dsu cit website for dead links
+	
+	goodReads: will require you to make a passwords.txt file. logs you into your goodreads account then will print to the command line the books on you tbr list
