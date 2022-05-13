@@ -1,7 +1,8 @@
-package main 
+package main
 
 func main() {
 	// exampleCoursera()
 	// movieReview()
-	citScrapper()
+	// citScrapper()
+	goodreads()
 }
