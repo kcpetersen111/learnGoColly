@@ -12,7 +12,7 @@ import (
 
 //will traverse all of the dead links on the dsu cs cit page and print them to the screen
 
-func citScrapper() {
+func fasterCitScrapper() {
 	temp := bufio.NewScanner(os.Stdin)
 	fmt.Println("How deep would you like to search?")
 	succ := temp.Scan()
@@ -21,6 +21,7 @@ func citScrapper() {
 		return
 	}
 	depth := temp.Text()
+	counter := 0
 	// depth, err := getInput("How deep would you like to search?")
 	// if err != nil {
 	// 	// fmt.Println(err)
@@ -37,9 +38,12 @@ func citScrapper() {
 	c := colly.NewCollector(
 		// colly.AllowedDomains("computing.utahtech.edu", "https://computing.utahtech.edu/", "www.cit.dixie.edu", ".edu"),
 		colly.MaxDepth(intDepth),
+		colly.Async(true),
 	)
+	c.Limit(&colly.LimitRule{Parallelism: 10})
 
 	c.OnHTML("a[href]", func(e *colly.HTMLElement) {
+		counter++
 
 		link := e.Attr("href")
 		// if !strings.HasPrefix(link, "/title") {
@@ -67,11 +71,12 @@ func citScrapper() {
 
 	c.Visit("https://computing.utahtech.edu/")
 
+	c.Wait()
 	fmt.Printf("\nDONE\n\n")
 
 	for key, val := range dead {
 		fmt.Printf("The link %v is dead. The error was %v.\n", key, val)
 	}
-
 	fmt.Println(c)
+	fmt.Printf("There was a grand total of %d number of links\n", counter)
 }
